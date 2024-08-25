@@ -1,0 +1,18 @@
+{
+  "name": "hexgenerate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.5.0",
+    "jimp": "^0.22.12",
+    "tsc": "^2.0.4",
+    "typescript": "^5.5.4"
+  }
+}
