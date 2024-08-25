@@ -55,6 +55,10 @@ const generateRoot = (props: {
         if (x === centerX && y < centerY) {
             drawCircle({ jimp: root, x0: x, y0: y, radius: rootWidth / 2 })
         }
+
+        if (x === centerX - 1 && y < centerY) {
+            drawCircle({ jimp: root, x0: x, y0: y, radius: rootWidth / 2 })
+        }
     })
 
     return root

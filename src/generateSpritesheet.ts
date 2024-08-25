@@ -1,23 +1,8 @@
-import * as fs from 'fs';
 import Jimp from 'jimp';
-import path from 'path';
 
-const inDir = path.join(__dirname, '..', 'src', 'spritesheetInputs')
-
-const getInputJimps = async () => {
-    const jimpPromises = fs.readdirSync(inDir).map(file => {
-        const fullPath = path.join(inDir, file)
-        return Jimp.read(fullPath)
-    }); 
-
-    return Promise.all(jimpPromises)
-}
-
-const index = async () => {
-    const [initial, ...inJimps] = await getInputJimps()
-    const outDir = path.join(__dirname, '..', 'src', 'spritesheetOutputs')
-
-    initial.write(path.join(outDir, 'output_00.png'))
+export const generateCombos = (inputJimps: Jimp[]) => {
+    const [initial, ...inJimps] = inputJimps
+    const result: Jimp[] = []
 
     for (let i = 1; i < 64; i++) {
         const base = initial.clone()
@@ -27,10 +12,26 @@ const index = async () => {
                 base.composite(jimp, 0, 0)
             }
         })
-        const outFileIndex = i.toString(10).padStart(2, '0')
-        const outPath = path.join(outDir, `output_${outFileIndex}.png`)
-        base.write(outPath)
+        result.push(base)
     }
+
+    return result
 }
 
-index()
+export const generateSpritesheet = (inputJimps: Jimp[]) => {
+    const spritePerRow = 8
+    const singleSpriteWidth = inputJimps[0].bitmap.width
+    const outWidth = spritePerRow * singleSpriteWidth
+    const result = new Jimp(outWidth, outWidth)
+
+    inputJimps.forEach((jimp, i) => {
+        const x0 = i % 8
+        const y0 = Math.floor(i / 8)
+
+        const x = x0 * singleSpriteWidth
+        const y = y0 * singleSpriteWidth
+        result.composite(jimp, x, y)
+    })
+
+    return result
+}
