@@ -1,7 +1,4 @@
 import Jimp from "jimp"
-import path from "path"
-
-const hexColor = 0xFF0000FF
 
 const getHexagonCorners = (radius: number): [number, number][] => {
     const corners: [number, number][] = []
@@ -47,7 +44,7 @@ const bresenhamLine = (x0: number, y0: number, x1: number, y1: number): [number,
     return points
 }
 
-const fillHex = (jimp: Jimp) => {
+const fillHex = (jimp: Jimp, hexColor: number) => {
     const width = jimp.getWidth()
     const height = jimp.getHeight()
 
@@ -85,8 +82,9 @@ const fillHex = (jimp: Jimp) => {
 export const generateHexagon = (props: {
     diameter: number
     canvasSize: number
+    color?: number
 }) => {
-    const { diameter, canvasSize } = props
+    const { diameter, canvasSize, color = 0xFF0000FF } = props
     
     const radius = diameter / 2
     const centerX = canvasSize / 2
@@ -103,10 +101,10 @@ export const generateHexagon = (props: {
     })
 
     lines.forEach(([x, y], i) => {
-        hexJimp.setPixelColor(hexColor, x, y)
+        hexJimp.setPixelColor(color, x, y)
     })
 
-    const filledHex = fillHex(hexJimp)
+    const filledHex = fillHex(hexJimp, color)
 
     return filledHex
 }

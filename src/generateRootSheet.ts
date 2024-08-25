@@ -2,11 +2,10 @@ import path from "path"
 import { generateHexagon } from "./generators/generateHexagon"
 import { generateBaseCircle, generateRootHex } from "./generators/generateRoots"
 import { generateRotatedHexagons } from "./generators/generateRotatedHexagons"
-import { generateCombos, generateSpritesheet } from "./generateSpritesheet"
-import Jimp from "jimp"
+import { generateCombos, generateSpritesheet } from "./generators/generateSpritesheet"
 
 const canvasSize = 128
-const outDir = path.join(__dirname, '..', 'src', 'outputs')
+const outDir = path.join(__dirname, '..', 'src', 'rootOutputs')
 
 const hexagon = generateHexagon({
     diameter: 120,
