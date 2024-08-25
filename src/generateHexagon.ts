@@ -1,4 +1,3 @@
-import { on } from "events"
 import Jimp from "jimp"
 import path from "path"
 
@@ -17,8 +16,6 @@ const getHexagonCorners = (radius: number): [number, number][] => {
 }
 
 const bresenhamLine = (x0: number, y0: number, x1: number, y1: number): [number, number][] => {
-    console.log(`bresenhamLine(${x0}, ${y0}, ${x1}, ${y1})`)
-
     const points: [number, number][] = []
     const dx = Math.abs(x1 - x0)
     const dy = Math.abs(y1 - y0)
@@ -50,11 +47,12 @@ const bresenhamLine = (x0: number, y0: number, x1: number, y1: number): [number,
     return points
 }
 
-const fillHex = (jimp: Jimp): Jimp => {
+const fillHex = (jimp: Jimp) => {
     const width = jimp.getWidth()
     const height = jimp.getHeight()
 
     const filled = jimp.clone()
+    const filledInversed = jimp.clone()
 
     let withinHex = false
     let onBorder = false
@@ -76,15 +74,18 @@ const fillHex = (jimp: Jimp): Jimp => {
         if (withinHex && !onBorder) {
             filled.setPixelColor(hexColor, x, y)
         }
+        else {
+            filledInversed.setPixelColor(hexColor, x, y)
+        }
     })
 
-    return filled
+    return { filled, filledInversed }
 }
 
 export const generateHexagon = (props: {
     diameter: number
     canvasSize: number
-}): Jimp => {
+}) => {
     const { diameter, canvasSize } = props
     
     const radius = diameter / 2
@@ -109,10 +110,3 @@ export const generateHexagon = (props: {
 
     return filledHex
 }
-
-const hexagon = generateHexagon({
-    diameter: 120,
-    canvasSize: 128
-})
-
-hexagon.write(path.join(__dirname, '..', 'src', 'hex_outputs', 'hexagon.png'))
