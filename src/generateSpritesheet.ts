@@ -2,7 +2,7 @@ import Jimp from 'jimp';
 
 export const generateCombos = (inputJimps: Jimp[]) => {
     const [initial, ...inJimps] = inputJimps
-    const result: Jimp[] = []
+    const result: Jimp[] = [initial]
 
     for (let i = 1; i < 64; i++) {
         const base = initial.clone()

@@ -1,5 +1,4 @@
 import Jimp from "jimp"
-import path from "path"
 import { generateHexagon } from "./generateHexagon"
 
 const rootColor = 0xFFFFFFFF
@@ -31,8 +30,6 @@ const drawCircle = (props: {
 }) => {
     const { jimp, x0, y0, radius } = props
     const points = getPixelsWithinRadius({ x0, y0, radius })
-
-    console.log(points)
 
     points.forEach(([x, y]) => {
         jimp.setPixelColor(rootColor, x, y)
@@ -78,6 +75,16 @@ const removeNonRootPixels = (props: {
     })
 
     return root
+}
+
+export const generateBaseCircle = (props: {
+    diameter: number,
+    canvasSize: number
+}) => {
+    const { diameter, canvasSize } = props
+    const jimp = new Jimp(canvasSize, canvasSize, 0x00000000)
+    drawCircle({ jimp, x0: canvasSize / 2, y0: canvasSize / 2, radius: diameter / 2 })
+    return jimp
 }
 
 export const generateRootHex = (props: {
