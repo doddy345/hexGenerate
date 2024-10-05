@@ -5,6 +5,8 @@ import { generateRotatedHexagons } from "./generators/generateRotatedHexagons"
 import { generateCombos, generateSpritesheet } from "./generators/generateSpritesheet"
 
 const canvasSize = 128
+const rootWidth = 6
+
 const outDir = path.join(__dirname, '..', 'src', 'rootOutputs')
 
 const hexagon = generateHexagon({
@@ -17,7 +19,7 @@ hexagon.filledInversed.write(path.join(outDir, 'hexOutputs', 'hexagonInversed.pn
 
 const rootOnly = generateRootHex({
     diameter: 121,
-    rootWidth: 20,
+    rootWidth,
     canvasSize
 }).write(path.join(outDir, 'rootOutputs', 'root.png'))
 
@@ -27,7 +29,7 @@ rotated.forEach((rotated, i) => {
 })
 
 const base = generateBaseCircle({
-    diameter: 20,
+    diameter: rootWidth,
     canvasSize
 })
 

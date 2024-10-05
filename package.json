@@ -11,8 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^22.5.0",
+    "command-line-args": "^6.0.0",
     "jimp": "^0.22.12",
     "tsc": "^2.0.4",
     "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@types/command-line-args": "^5.2.3"
   }
 }
