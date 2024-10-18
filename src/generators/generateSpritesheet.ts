@@ -1,6 +1,6 @@
 import Jimp from 'jimp';
 
-export const generateCombos = (inputJimps: Jimp[]) => {
+export const generateCombos = (inputJimps: Jimp[], threeDimensionSidesEdge?: Array<Jimp | null>, threeDimensionSidesBase?: Array<Jimp | null>) => {
     const [initial, ...inJimps] = inputJimps
     const result: Jimp[] = [initial]
 
@@ -9,13 +9,30 @@ export const generateCombos = (inputJimps: Jimp[]) => {
         inJimps.forEach((jimp, jimpIndex) => {
             const pow = Math.pow(2, jimpIndex)
             if ((i & pow) === pow) {
-                base.composite(jimp, 0, 0)
+                drawSide(base, jimp)
+                addDimensions(base, jimpIndex, threeDimensionSidesEdge)
+            } else {
+                addDimensions(base, jimpIndex, threeDimensionSidesBase)
             }
         })
         result.push(base)
     }
 
     return result
+}
+
+const drawSide = (base: Jimp, side: Jimp) => {
+    base.composite(side, 0, 0)
+}
+
+const addDimensions = (base: Jimp, i: number, threeDimensionSides?: Array<Jimp | null>) => {
+    if (threeDimensionSides ===  undefined) {
+        return
+    }
+
+    if (threeDimensionSides[i] !== undefined && threeDimensionSides[i] !== null ) {
+        return base.composite(threeDimensionSides[i], 0, 0)
+    }
 }
 
 export const generateSpritesheet = (inputJimps: Jimp[]) => {

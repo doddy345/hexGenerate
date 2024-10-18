@@ -14,7 +14,7 @@
     "command-line-args": "^6.0.0",
     "jimp": "^0.22.12",
     "tsc": "^2.0.4",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.3"
   },
   "devDependencies": {
     "@types/command-line-args": "^5.2.3"
