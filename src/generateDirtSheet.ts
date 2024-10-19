@@ -10,14 +10,22 @@ const getArgs = () => {
     const optionDefinitions = [
         { name: 'base', type: String },
         { name: 'side', type: String },
-        { name: 'n3dSideEdge', type: String, defaultValue: null },
-        { name: 'nw3dSideEdge', type: String, defaultValue: null },
-        { name: 'sw3dSideEdge', type: String, defaultValue: null },
-        { name: 'n3dSideBase', type: String, defaultValue: null },
-        { name: 'nw3dSideBase', type: String, defaultValue: null },
-        { name: 'sw3dSideBase', type: String, defaultValue: null },
+        { name: 'nEdge', type: String, defaultValue: null },
+        { name: 'neEdge', type: String, defaultValue: null },
+        { name: 'seEdge', type: String, defaultValue: null },
+        { name: 'sEdge', type: String, defaultValue: null },
+        { name: 'swEdge', type: String, defaultValue: null },
+        { name: 'nwEdge', type: String, defaultValue: null },
+        { name: 'nBase', type: String, defaultValue: null },
+        { name: 'neBase', type: String, defaultValue: null },
+        { name: 'seBase', type: String, defaultValue: null },
+        { name: 'sBase', type: String, defaultValue: null },
+        { name: 'swBase', type: String, defaultValue: null },
+        { name: 'nwBase', type: String, defaultValue: null }
     ]
-    const { base, side, n3dSideEdge, nw3dSideEdge, sw3dSideEdge, n3dSideBase, nw3dSideBase, sw3dSideBase } = commandLineArgs(optionDefinitions)
+
+    const args = commandLineArgs(optionDefinitions)
+    const { base, side  } = args
 
     if (typeof base !== 'string') {
         throw new Error('base is required')
@@ -27,7 +35,7 @@ const getArgs = () => {
         throw new Error('side is required')
     }
 
-    return { base, side, n3dSideEdge, nw3dSideEdge, sw3dSideEdge, n3dSideBase, nw3dSideBase, sw3dSideBase }
+    return { ...args, base, side } as any
 }
 
 const generateSheet = async (basePath: string, sidePath: string, threeDimensionSidesPathsEdge: Array<string | null>,  threeDimensionSidesPathsBase: Array<string | null>) => {
@@ -56,9 +64,9 @@ const generateSheet = async (basePath: string, sidePath: string, threeDimensionS
     sheet.write(path.join(outDir, 'sheetOutputs', 'dirt_sheet.png'))
 }
 
-const{ base, side , n3dSideEdge, nw3dSideEdge, sw3dSideEdge, n3dSideBase, nw3dSideBase, sw3dSideBase} = getArgs()
+const{ base, side, nwEdge, nEdge, neEdge, nwBase, nBase, neBase} = getArgs()
 
-const edge3dSides = [n3dSideEdge, null, null, null, sw3dSideEdge, nw3dSideEdge]
-const base3dSides = [n3dSideBase, null, null, null, sw3dSideBase, nw3dSideBase]
+const edge3dSides = [nEdge, neEdge, null, null, null, nwEdge]
+const base3dSides = [nBase, neBase, null, null, null, nwBase]
 
 generateSheet(base, side, base3dSides, edge3dSides)
