@@ -53,7 +53,7 @@ const generateSheet = async (basePath: string, sidePath: string, threeDimensionS
     })
     
     const sheet = generateSpritesheet(combos)
-    sheet.write(path.join(outDir, 'sheetOutputs', 'sheet.png'))
+    sheet.write(path.join(outDir, 'sheetOutputs', 'dirt_sheet.png'))
 }
 
 const{ base, side , n3dSideEdge, nw3dSideEdge, sw3dSideEdge, n3dSideBase, nw3dSideBase, sw3dSideBase} = getArgs()
